@@ -145,6 +145,13 @@ void presentBackBuffer(SDL_Renderer *renderer, SDL_Window* win, SDL_Texture* bac
 		glUseProgram(programId);
 	}
 
+	glViewport(0, 0, WIN_WIDTH, WIN_HEIGHT);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, WIN_WIDTH, WIN_HEIGHT, 0, -1, 1);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
 	GLfloat minx, miny, maxx, maxy;
 	GLfloat minu, maxu, minv, maxv;
 
@@ -289,7 +296,7 @@ int main(int argc, char **argv){
 			SDL_RenderCopy(renderer, bmpTex, NULL, &targetRect);
 		}
 
-		presentBackBuffer(renderer, win, texTarget, programId);
+		presentBackBuffer(renderer, win, texTarget, useShader ? programId : 0);
 
 		/* This could go in a separate function */
 		SDL_Event event;
